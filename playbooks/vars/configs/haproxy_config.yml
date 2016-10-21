@@ -181,9 +181,9 @@ haproxy_default_services:
   - service:
       haproxy_service_name: horizon
       haproxy_backend_nodes: "{{ groups['horizon_all'] | default([]) }}"
-      haproxy_ssl: "{{ haproxy_ssl }}"
+      haproxy_ssl: "true"
       haproxy_ssl_all_vips: true
-      haproxy_port: "{{ haproxy_ssl | ternary(443,80) }}"
+      haproxy_port: "443"
       haproxy_backend_port: 80
       haproxy_redirect_http_port: 80
       haproxy_balance_type: http
@@ -252,3 +252,12 @@ haproxy_default_services:
       haproxy_balance_type: http
       haproxy_backend_options:
         - "httpchk GET /"
+#  - service:
+#      haproxy_service_name: horizon_ssl
+#      haproxy_backend_nodes: "{{ groups['horizon_all'] | default([]) }}"
+#      haproxy_ssl: "false"
+#      haproxy_port: 443
+#      haproxy_balance_type: tcp
+#      haproxy_backend_options:
+#        - tcp-check
+
