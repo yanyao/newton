@@ -184,3 +184,4 @@ tempest_img_url: "http://repo:8181/images/cirros-{{ cirros_version }}-x86_64-dis
 
 tempest_git_repo: "git://repo:9418/tempest"
 tempest_venv_enabled: false
+openstack_service_publicuri_proto: http
