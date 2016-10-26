@@ -89,7 +89,7 @@ commands:
 .. code-block:: console
 
     # openstack-ansible setup-infrastructure.yml -e 'rabbitmq_upgrade=true' \
-    # -e 'galera_upgrade=true'
+      -e 'galera_upgrade=true'
 
 The ``rabbitmq_upgrade`` variable tells the ``rabbitmq_server`` role to
 upgrade RabbitMQ.
@@ -123,3 +123,14 @@ Stops the ``aodh-api`` service and removes the init file since ``aodh-api``
 now runs under Apache ``mod_wsgi``.
 Run the ``os-aodh-install.yml`` playbook during the OpenStack services upgrade
 to ensure ``aodh-api`` is available after running ``aodh-api-init-delete.yml``.
+
+.. _ceilometer-api-init-delete:
+
+ceilometer-api-init-delete.yml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Stops the ``ceilometer-api`` service and removes the init file since
+``ceilometer-api`` now runs under Apache ``mod_wsgi``.
+Run the ``os-ceilometer-install.yml`` playbook during the OpenStack services
+upgrade to ensure ``ceilometer-api`` is available after running
+``ceilometer-api-init-delete.yml``.
