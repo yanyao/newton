@@ -80,8 +80,8 @@ Steps to writing the role:
       discover a need for them. You can also develop documentation for your
       role at the same time.
 
-.. _(see also the spec template): https://github.com/openstack/openstack-ansible-specs/blob/master/specs/template.rst
-.. _specs repository: https://github.com/openstack/openstack-ansible-specs
+.. _(see also the spec template): https://git.openstack.org/cgit/openstack/openstack-ansible-specs/tree/specs/templates/template.rst
+.. _specs repository: https://git.openstack.org/cgit/openstack/openstack-ansible-specs
 .. _unmerged specs: https://review.openstack.org/#/q/status:+open+project:openstack/openstack-ansible-specs
 .. _Best Practice: https://docs.ansible.com/ansible/playbooks_best_practices.html#directory-layout
 
@@ -262,7 +262,7 @@ The development of a role will usually go through the following stages:
 
      This is implemented into the dynamic inventory through the definition of
      content in an ``env.d`` file. A description of how these work can be
-     found in `Appendix H`_ of the Installation Guide.
+     found in `Appendix C`_ of the Installation Guide.
 
    * Load balancer configuration
 
@@ -323,7 +323,7 @@ The development of a role will usually go through the following stages:
      required last step before a service can remove the experimental warning
      from the documentation.
 
-   .. _Appendix H: ../install-guide/app-custom-layouts.html
+   .. _Appendix C: ../install-guide/app-custom-layouts.html
 
 --------------
 
