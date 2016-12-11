@@ -1,6 +1,6 @@
-==================
-Installation Guide
-==================
+==================================
+OpenStack-Ansible Deployment Guide
+==================================
 
 This guide provides instructions for performing an OpenStack-Ansible
 installation in a test environment and a production environment, and is
@@ -16,9 +16,6 @@ intended for deployers.
    run-playbooks.rst
    verify-operation.rst
    app.rst
-
-Disclaimer
-~~~~~~~~~~
 
 Third-party trademarks and tradenames appearing in this document are the
 property of their respective owners. Such third-party trademarks have
