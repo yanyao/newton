@@ -14,7 +14,7 @@
 # limitations under the License.
 
 ## General options
-debug: True
+debug: False
 
 ## Tempest settings
 tempest_public_subnet_cidr: 172.29.248.0/22
@@ -60,19 +60,11 @@ lxc_net_address: 10.255.255.1
 lxc_net_netmask: 255.255.255.0
 lxc_net_dhcp_range: 10.255.255.2,10.255.255.253
 
-## Wheel mirrors for the repo_build to use
-repo_build_pip_extra_indexes:
-- http://mirror.ord.rax.openstack.org/wheel/ubuntu-16.04-x86_64/
-
 
 
 ## Package cache timeout
 cache_timeout: 600
 
-
-## Instruct the gate to always build libvirt-python from pip source
-repo_build_pip_no_binary:
-  - libvirt-python
 
 # The container backing store is set to 'overlayfs' to speed up the
 # AIO build time.
@@ -95,10 +87,10 @@ repo_pkg_cache_enabled: false
 lxc_cache_install_debconf: '-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --force-yes --allow-unauthenticated '
 percona_arch_url:
   x86_64: "http://repo:8181/downloads/percona-xtrabackup-22_2.2.13-1.vivid_amd64.deb"
-  ppc64le: "http://public.dhe.ibm.com/systems/virtualization/Novalink/misc/percona-xtrabackup/percona-xtrabackup-22_2.2.13-1_ppc64el.deb"
+  ppc64le: "http://repo:8181/downloads/percona-xtrabackup-22_2.2.13-1_ppc64el.deb"
 qpress_arch_url:
   x86_64: "http://repo:8181/downloads/qpress_11-1.xenial_amd64.deb"
-  ppc64le: "http://public.dhe.ibm.com/systems/virtualization/Novalink/misc/qpress/qpress_11-1_ppc64el.deb"
+  ppc64le: "http://repo:8181/downloads/qpress_11-1_ppc64el.deb"
 _rabbitmq_package_url: "http://repo:8181/downloads/rabbitmq-server_3.6.5-1_all.deb"
 nova_uca_enable: false
 neutron_uca_enable: false
@@ -165,7 +157,7 @@ journal_collocation: true
 nova_libvirt_images_rbd_pool: vms
 glance_default_store: rbd
 
-ceph_stable_uca: true
+eph_stable_uca: true
 
 
 #libvirt for live-migration
