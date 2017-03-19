@@ -28,6 +28,7 @@ packages_install:
   - vim
   - vlan
   - xfsprogs
+  - iputils-tracepath
 
 packages_remove:
   - libmysqlclient18

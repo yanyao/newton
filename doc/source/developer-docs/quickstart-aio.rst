@@ -1,5 +1,4 @@
-`Home <index.html>`_ OpenStack-Ansible Developer Documentation
-
+===========
 Quick Start
 ===========
 
@@ -55,6 +54,12 @@ system packages are upgraded and then reboot into the new kernel:
    # apt-get dist-upgrade
    # reboot
 
+.. note::
+
+   If you are installing with limited connectivity, please review
+   the *Installing with limited connectivity* appendix in the
+   `Deployment Guide`_ before proceeding.
+
 Start by cloning the OpenStack-Ansible repository and changing into the
 repository root directory:
 
@@ -75,20 +80,20 @@ development) build it is usually best to checkout the latest tagged version.
    # git tag -l
 
    # # Checkout the stable branch and find just the latest tag
-   # git checkout stable/|previous_release_branch_name|
+   # git checkout stable/|current_release_branch_name|
    # git describe --abbrev=0 --tags
 
    # # Checkout the latest tag from either method of retrieving the tag.
    # git checkout |latest_tag|
 
 .. note::
-   The |previous_release_formal_name| release is only compatible with Ubuntu 14.04 (Trusy Tahr).
+   The |current_release_formal_name| release is only compatible with Ubuntu 14.04 (Trusy Tahr) and Ubuntu 16.04 (Xenial Xerus).
 
 By default the scripts deploy all OpenStack services with sensible defaults
 for the purpose of a gate check, development or testing system.
 
 Review the `bootstrap-host role defaults`_ file to see
-various configuration options.  Deployers have the option to change how the
+various configuration options. Deployers have the option to change how the
 host is bootstrapped. This is useful when you wish the AIO to make use of
 a secondary data disk, or when using this role to bootstrap a multi-node
 development environment.
@@ -142,16 +147,27 @@ following to bootstrap Ansible:
 
 In order for all the services to run, the host must be prepared with the
 appropriate disks, packages, network configuration and a base configuration
-for the OpenStack Deployment. This preparation is completed by executing:
+for the OpenStack Deployment. For the default AIO scenario, this preparation
+is completed by executing:
 
 .. code-block:: shell-session
 
    # scripts/bootstrap-aio.sh
 
-If you wish to add any additional configuration entries for the OpenStack
-configuration then this can be done now by editing
-``/etc/openstack_deploy/user_variables.yml``. Please see the `Install Guide`_
-for more details.
+To add OpenStack Services over and above the `bootstrap-aio default services`_
+for the applicable scenario, copy the ``conf.d`` files with the ``.aio`` file
+extension into ``/etc/openstack_deploy`` and rename then to ``.yml`` files.
+For example, in order to enable the OpenStack Telemetry services, execute the
+following:
+
+.. code-block:: shell-session
+
+   cp etc/openstack_deploy/conf.d/{aodh,gnocchi,ceilometer}.yml.aio /etc/openstack_deploy/conf.d/
+   for f in $(ls -1 /etc/openstack_deploy/conf.d/*.aio); do mv -v ${f} ${f%.*}; done
+
+To add any global overrides, over and above the defaults for the applicable
+scenario, edit  ``/etc/openstack_deploy/user_variables.yml``. See the
+`Deployment Guide`_ for more details.
 
 Finally, run the playbooks by executing:
 
@@ -190,7 +206,8 @@ Keystone service, execute:
 that are not requested for deployment, but the service will not be deployed
 in that container.
 
-.. _Install Guide: ../install-guide/
+.. _Deployment Guide: http://docs.openstack.org/project-deploy-guide/openstack-ansible/newton/
+.. _bootstrap-aio default services: https://git.openstack.org/cgit/openstack/openstack-ansible/tree/tests/bootstrap-aio.yml?h=stable/newton
 
 Rebooting an AIO
 ----------------
@@ -205,7 +222,8 @@ This is done by executing the following:
    # openstack-ansible -e galera_ignore_cluster_state=true galera-install.yml
 
 If this fails to get the database cluster back into a running state, then
-please make use of the `Galera Cluster Recovery`_ page in the Install Guide.
+please make use of the `Galera Cluster Recovery`_ page in the Deployment
+Guide.
 
 .. _Galera Cluster Recovery: http://docs.openstack.org/developer/openstack-ansible/newton/developer-docs/ops-galera-recovery.html
 
@@ -309,7 +327,3 @@ built for informational purposes only and should **ONLY** be used as such.
       | |          |                              | |            |      |
       | |          V                              | |            *      |
       ---->[ Compute ]*[ Neutron linuxbridge ]<---| |->[ Swift storage ]-
-
---------------
-
-.. include:: navigation.txt

@@ -16,7 +16,7 @@ deployment host.
 To use a target host as a deployment host, follow the steps in
 `Prepare target hosts`_ on the deployment host.
 
-.. _Prepare target hosts: http://docs.openstack.org/developer/openstack-ansible/newton/install-guide/targethosts.html
+.. _Prepare target hosts: http://docs.openstack.org/project-deploy-guide/openstack-ansible/newton/targethosts.html
 
 Install the operating system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,12 +84,17 @@ Install the source and dependencies
 
 Install the source and dependencies for the deployment host.
 
+.. note::
+
+   If you are installing with limited connectivity, please review
+   :ref:`limited-connectivity-appendix` before proceeding.
+
 #. Clone the latest stable release of the OpenStack-Ansible Git repository in
    the ``/opt/openstack-ansible`` directory:
 
    .. parsed-literal::
 
-       # git clone -b TAG https://git.openstack.org/openstack/openstack-ansible \
+       # git clone -b |latest_tag| https://git.openstack.org/openstack/openstack-ansible \
        /opt/openstack-ansible
 
 #. Change to the ``/opt/openstack-ansible`` directory, and run the

@@ -13,9 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+## AIO user-space configuration options
 # Boolean option to implement OpenStack-Ansible configuration for an AIO
 # Switch to no for a multi-node configuration
 bootstrap_host_aio_config: yes
+#
+# Path to the location of the bootstrapping configuration files
+bootstrap_host_aio_config_path: "{{ playbook_dir }}/../etc/openstack_deploy"
+#
+# Path to the location of the scripts the bootstrap scripts use
+bootstrap_host_aio_script_path: "{{ playbook_dir }}/../scripts"
+#
+# The user space configuration file names to use
+bootstrap_host_user_variables_filename: "user_variables.yml"
+bootstrap_host_user_secrets_filename: "user_secrets.yml"
 
 ## Swap memory
 # If there is no swap memory present, the bootstrap will create a loopback disk
@@ -155,6 +166,11 @@ bootstrap_host_data_disk_min_size: 50
 # By default the configuration will be derived from the host.
 #bootstrap_host_ubuntu_repo: http://archive.ubuntu.com/ubuntu/
 #bootstrap_host_ubuntu_security_repo: http://archive.ubuntu.com/ubuntu/
+
+# Set the distribution suffixes that will be included in the apt repository configuration
+bootstrap_host_apt_distribution_suffix_list:
+  - updates
+  - backports
 
 # Set the components that will be included in the apt repository configuration
 bootstrap_host_apt_components:

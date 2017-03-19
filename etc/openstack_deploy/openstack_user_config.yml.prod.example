@@ -12,6 +12,12 @@ used_ips:
 
 global_overrides:
   internal_lb_vip_address: 172.29.236.9
+  #
+  # The below domain name must resolve to an IP address
+  # in the CIDR specified in haproxy_keepalived_external_vip_cidr.
+  # If using different protocols (https/http) for the public/internal
+  # endpoints the two addresses must be different.
+  #
   external_lb_vip_address: openstack.example.com
   tunnel_bridge: "br-vxlan"
   management_bridge: "br-mgmt"
@@ -252,7 +258,10 @@ storage_hosts:
     container_vars:
       cinder_backends:
         limit_container_types: cinder_volume
-        cinder_nfs_client:
+        nfs_volume:
+          volume_backend_name: NFS_VOLUME1
+          volume_driver: cinder.volume.drivers.nfs.NfsDriver
+          nfs_mount_options: "rsize=65535,wsize=65535,timeo=1200,actimeo=120"
           nfs_shares_config: /etc/cinder/nfs_shares
           shares:
             - ip: "172.29.244.15"
@@ -262,7 +271,10 @@ storage_hosts:
     container_vars:
       cinder_backends:
         limit_container_types: cinder_volume
-        cinder_nfs_client:
+        nfs_volume:
+          volume_backend_name: NFS_VOLUME1
+          volume_driver: cinder.volume.drivers.nfs.NfsDriver
+          nfs_mount_options: "rsize=65535,wsize=65535,timeo=1200,actimeo=120"
           nfs_shares_config: /etc/cinder/nfs_shares
           shares:
             - ip: "172.29.244.15"
@@ -272,7 +284,10 @@ storage_hosts:
     container_vars:
       cinder_backends:
         limit_container_types: cinder_volume
-        cinder_nfs_client:
+        nfs_volume:
+          volume_backend_name: NFS_VOLUME1
+          volume_driver: cinder.volume.drivers.nfs.NfsDriver
+          nfs_mount_options: "rsize=65535,wsize=65535,timeo=1200,actimeo=120"
           nfs_shares_config: /etc/cinder/nfs_shares
           shares:
             - ip: "172.29.244.15"

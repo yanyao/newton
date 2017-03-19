@@ -1,5 +1,4 @@
-`Home <index.html>`_ OpenStack-Ansible Developer Documentation
-
+================
 Included Scripts
 ================
 
@@ -70,15 +69,6 @@ The ``run-playbooks`` script is designed to be executed in development and
 test environments and is also used for automated testing. It executes actions
 which are definitely **not** suitable for production environments and must
 therefore **not** be used for that purpose.
-
-In order to scope the playbook execution there are several ``DEPLOY_``
-environment variables available near the top of the script. These are used
-by simply exporting an override before executing the script. For example,
-to skip the execution of the Ceilometer playbook, execute:
-
-.. code-block:: bash
-
-    export DEPLOY_CEILOMETER='no'
 
 The default MaxSessions setting for the OpenSSH Daemon is 10. Each Ansible
 fork makes use of a Session. By default Ansible sets the number of forks to 5,
@@ -176,6 +166,7 @@ Documentation may be built locally by executing:
 .. code-block:: bash
 
     tox -e docs
+    tox -e deploy-guide
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 
@@ -202,8 +193,8 @@ Release notes may be built locally by executing:
 Gating
 ^^^^^^
 
-Every commit to OpenStack-Ansible is verified by OpenStack-CI through the
-following jobs:
+Every commit to the OpenStack-Ansible integrated build is verified by
+OpenStack-CI through the following jobs:
 
 * ``gate-openstack-ansible-releasenotes``: This job executes the
   `Release Notes Build`_.
@@ -232,7 +223,3 @@ following jobs:
 
   While this script is primarily developed and maintained for use in
   OpenStack-CI, it can be used in other environments.
-
---------------
-
-.. include:: navigation.txt

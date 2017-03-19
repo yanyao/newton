@@ -22,14 +22,14 @@ set -e -u -x
 ## Vars ----------------------------------------------------------------------
 export HTTP_PROXY=${HTTP_PROXY:-""}
 export HTTPS_PROXY=${HTTPS_PROXY:-""}
-export ANSIBLE_PACKAGE=${ANSIBLE_PACKAGE:-"ansible==2.1.1.0"}
+export ANSIBLE_PACKAGE=${ANSIBLE_PACKAGE:-"git+https://github.com/ansible/ansible@44026f8d7befa4d25c8ee8b3bd3efa3bdb240d62"} # stable-2.1 post 2.1.4.0 with yaml fix
 export ANSIBLE_ROLE_FILE=${ANSIBLE_ROLE_FILE:-"ansible-role-requirements.yml"}
 export SSH_DIR=${SSH_DIR:-"/root/.ssh"}
 export DEBIAN_FRONTEND=${DEBIAN_FRONTEND:-"noninteractive"}
-# Set the location of the constraints to use for all pip installations
-export UPPER_CONSTRAINTS_FILE=${UPPER_CONSTRAINTS_FILE:-"http://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt?id=$(awk '/requirements_git_install_branch:/ {print $2}' playbooks/defaults/repo_packages/openstack_services.yml)"}
+
 # Set the role fetch mode to any option [galaxy, git-clone]
 export ANSIBLE_ROLE_FETCH_MODE=${ANSIBLE_ROLE_FETCH_MODE:-galaxy}
+
 # virtualenv vars
 VIRTUALENV_OPTIONS="--always-copy"
 
@@ -94,8 +94,17 @@ elif [ -n "$HTTP_PROXY" ]; then
   PIP_OPTS="--proxy $HTTP_PROXY"
 fi
 
-# Create a Virtualenv for the Ansible runtime
+# Figure out the version of python is being used
 PYTHON_EXEC_PATH="$(which python2 || which python)"
+PYTHON_VERSION="$($PYTHON_EXEC_PATH -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')"
+
+# Use https when Python with native SNI support is available
+UPPER_CONSTRAINTS_PROTO=$([ "$PYTHON_VERSION" == $(echo -e "$PYTHON_VERSION\n2.7.9" | sort -V | tail -1) ] && echo "https" || echo "http")
+
+# Set the location of the constraints to use for all pip installations
+export UPPER_CONSTRAINTS_FILE=${UPPER_CONSTRAINTS_FILE:-"$UPPER_CONSTRAINTS_PROTO://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt?id=$(awk '/requirements_git_install_branch:/ {print $2}' playbooks/defaults/repo_packages/openstack_services.yml)"}
+
+# Create a Virtualenv for the Ansible runtime
 virtualenv --clear ${VIRTUALENV_OPTIONS} --system-site-packages --python="${PYTHON_EXEC_PATH}" /opt/ansible-runtime
 
 # The vars used to prepare the Ansible runtime venv
@@ -110,7 +119,7 @@ PIP_COMMAND="/opt/ansible-runtime/bin/pip"
 ${PIP_COMMAND} install ${PIP_OPTS} ${PIP_INSTALL_OPTIONS} || ${PIP_COMMAND} install ${PIP_OPTS} --isolated ${PIP_INSTALL_OPTIONS}
 
 # Set the constraints now that we know we're using the right version of pip
-PIP_OPTS+=" --constraint ${UPPER_CONSTRAINTS_FILE}"
+PIP_OPTS+=" --constraint global-requirement-pins.txt --constraint ${UPPER_CONSTRAINTS_FILE}"
 
 # Install the required packages for ansible
 $PIP_COMMAND install $PIP_OPTS -r requirements.txt ${ANSIBLE_PACKAGE} || $PIP_COMMAND install --isolated $PIP_OPTS -r requirements.txt ${ANSIBLE_PACKAGE}
