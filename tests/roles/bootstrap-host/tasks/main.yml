@@ -41,11 +41,11 @@
     - create-directories
 
 # Configure apt in a known way to reduce the chance of unexpected failures
-- include: install-apt.yml
-  when:
-    - ansible_pkg_mgr == 'apt'
-  tags:
-    - install-apt
+#- include: install-apt.yml
+#  when:
+#    - ansible_pkg_mgr == 'apt'
+#  tags:
+#    - install-apt
 
 - name: Install packages
   package:
